@@ -5,6 +5,7 @@ from card import Card
 # Make it easier to get filepath for the card art
 file = "card_art\\"
 
+# Functions to create an instance of every different card
 def create_ari():
     return Card("Ari", 3, 3, 5, f"{file}ari_art.bmp")
 
