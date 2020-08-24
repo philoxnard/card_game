@@ -20,3 +20,5 @@ class Card():
         self.rect = self.image.get_rect()
         
         self.first_turn = True
+        
+        

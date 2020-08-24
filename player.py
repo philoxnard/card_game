@@ -13,7 +13,7 @@ class Player():
         self.identity = identity
         self.deck = deck_file_name
         self.life_total = 20
-        self.hand_size = 6
+        self.starting_hand_size = 6
         self.devotion_total = 0
         self.devotion_pool = 0
         self.hand = []
@@ -28,7 +28,7 @@ class Player():
         
     # Draws the player's starting hand
     def draw_starting_hand(self):
-        for i in range(self.hand_size):
+        for i in range(self.starting_hand_size):
             draw = self.deck.pop(0)
             self.hand.append(draw)
 
@@ -150,19 +150,25 @@ class Player():
                 else:
                     print("summoning sickness")
                     
-    def click_hand(self, screen_height, screen):
+    def click_hand(self, index, card, screen_height, screen):
+        self.refresh_screen(game_ui.screen_height, screen)
+        game_ui.hand(game_ui.devote, game_ui.devote_rect, card.rect.topleft, screen)
+        game_ui.hand(game_ui.play, game_ui.play_rect, (game_ui.devote_rect.topleft), screen)
+        
+    def expand_card(self, screen):
+        pos = pygame.mouse.get_pos()
         for index, card in enumerate(self.hand):
-            pos = pygame.mouse.get_pos()
             if card.rect.collidepoint(pos):
-                # Refresh the display
-                self.refresh_screen(game_ui.screen_height, screen)
-                # Display the option to devote the clicked card
-                game_ui.hand(game_ui.devote, game_ui.devote_rect, card.rect.topleft, screen)
-                # Display the option to play the clicked card
-                game_ui.hand(game_ui.play, game_ui.play_rect, (game_ui.devote_rect.topleft), screen)
-                print(f"index being returned in click_hand method is {index}")
-                return index
+                active_card = self.hand[index]
+                x = game_ui.screen_width - active_card.raw_rect.width
+                y = game_ui.screen_height - active_card.raw_rect.height
+                screen.blit(active_card.raw_image, (x, y))
 
-
-
-    
+    def expand_card_bf(self, screen):
+        pos = pygame.mouse.get_pos()
+        for index, card in enumerate(self.battlefield):
+            if card.rect.collidepoint(pos):
+                active_card = self.battlefield[index]
+                x = game_ui.screen_width - active_card.raw_rect.width
+                y = game_ui.screen_height - active_card.raw_rect.height
+                screen.blit(active_card.raw_image, (x, y))
