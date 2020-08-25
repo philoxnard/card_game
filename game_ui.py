@@ -41,11 +41,36 @@ mana_rect = mana.get_rect()
 empty_mana = pygame.image.load("game_ui\\empty_mana.bmp")
 empty_mana_rect = empty_mana.get_rect()
 
+# Code to get the graphics and rect for the energy option
+energy = pygame.image.load("game_ui\\energy.bmp")
+energy_rect = energy.get_rect()
+energy_cost = 3
+energy_rect.x = 1013
+energy_rect.y = 561
+energy_dest_x = 376
+energy_dest_y = 69
+
+
+# Code to get the graphics and rect for the draw card option
+draw = pygame.image.load("game_ui\\draw.bmp")
+draw_rect = draw.get_rect()
+draw_cost = 4
+draw_rect.x = 1026
+draw_rect.y = 632
+
+# Code to get the graphics and rect for the next turn option
+next_turn = pygame.image.load("game_ui\\next_turn.bmp")
+next_turn_rect = next_turn.get_rect()
+next_turn_rect.x = 1013
+next_turn_rect.y = 500
+
 # Function for instantiating the images/rects
 # for the options a player has when they select a card
 def hand(option_image, option_rect, anchor, screen):
     option_rect.bottomleft = anchor
     screen.blit(option_image, option_rect)
+    
+
     
 
     

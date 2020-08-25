@@ -13,6 +13,7 @@ def run_game():
     
     # Instantiate the first player        
     player_1 = Player("Player 1", "Ari", deck.deck, screen)
+    player_1.refresh_screen(game_ui.screen_height, screen)
     
     # Draw the player's starting hand from their deck
     player_1.draw_starting_hand()
@@ -54,12 +55,6 @@ def run_game():
                     if event.key == pygame.K_q:
                         pygame.quit()
                         
-                #####################################################################
-                ########### Code that allows the user to end their turn #############
-                #####################################################################
-                    elif event.key == pygame.K_SPACE:
-                        player_1.new_turn(game_ui.screen_height, screen)
-                        
                 #####################################################################        
                 ################ Code that operates the user's hand #################
                 #####################################################################
@@ -91,6 +86,13 @@ def run_game():
                     # Can only be done if a card has been active for a turn
                     if event.button == 1:
                         player_1.attack()
+                        
+                    ##########################################################
+                    ########### Code for using the extra options #############
+                    ##########################################################
+                        player_1.extra_draw(game_ui.screen_height, screen)
+                        player_1.get_energy(game_ui.screen_height, screen)
+                        player_1.new_turn(game_ui.screen_height, screen)
                         
             # Flip the display
             pygame.display.flip()

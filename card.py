@@ -4,11 +4,12 @@ class Card():
     """A class to represent a playing card"""
     
     # Method to initialize each card
-    def __init__(self, name="", cost="", attack="", health="", art=""):
+    def __init__(self, name, cost, energy_cost, attack, health, art):
         self.name = name
         self.cost = cost
         self.attack = attack
         self.health = health
+        self.energy_cost = energy_cost
         self.raw_image = pygame.image.load(art)
         self.raw_rect = self.raw_image.get_rect()
         

@@ -13,7 +13,7 @@ class Player():
         self.identity = identity
         self.deck = deck_file_name
         self.life_total = 20
-        self.starting_hand_size = 6
+        self.starting_hand_size = 5
         self.devotion_total = 0
         self.devotion_pool = 0
         self.hand = []
@@ -25,6 +25,8 @@ class Player():
         self.devotion_max = 10
         self.hand_max = 7
         self.battlefield_max = 7
+        self.energy_pool = 0
+        self.energy_max = 3
         
     # Draws the player's starting hand
     def draw_starting_hand(self):
@@ -47,7 +49,7 @@ class Player():
             screen.blit(card.image, card.rect)
     
     # Show the player's current status
-    # Displays devotion, life, devoted cards, and battlefield
+    # Displays devotion, life, energy, and battlefield
     def get_status(self, screen_height, screen):
         # Display a green square for each life point
         for i in range(self.life_total):
@@ -63,6 +65,9 @@ class Player():
             empty_starting_point = self.devotion_pool*game_ui.mana_rect.width
             screen.blit(game_ui.empty_mana, (empty_starting_point+next_image, game_ui.life_rect.height))
         self.show_battlefield(screen_height, screen)
+        for i in range(self.energy_pool):
+            next_image = i*game_ui.energy_rect.width
+            screen.blit(game_ui.energy, (game_ui.energy_dest_x+next_image, game_ui.energy_dest_y))
     
             
     # Add card to devotion pool
@@ -91,20 +96,24 @@ class Player():
     # Add a card from your hand to the battlefield  
     ### Must display some sort of error if user doesn't have enough devotion
     def play_card(self, active_card_ix, screen_height, screen):
-        if len(self.battlefield) < self.battlefield_max:
-            if self.hand[active_card_ix].cost <= self.devotion_pool:
-                card = self.hand[active_card_ix]
-                self.hand.pop(active_card_ix)
-                self.battlefield.append(card)
-                self.devotion_pool -= card.cost
-                self.refresh_screen(screen_height, screen)
-                self.get_status(screen_height, screen)
-                print("play")
+        print(f"active card ix is {active_card_ix}")
+        if self.hand[active_card_ix].energy_cost <= self.energy_pool:
+            if len(self.battlefield) < self.battlefield_max:
+                if self.hand[active_card_ix].cost <= self.devotion_pool:
+                    card = self.hand[active_card_ix]
+                    self.hand.pop(active_card_ix)
+                    self.battlefield.append(card)
+                    self.energy_pool -= card.energy_cost
+                    self.devotion_pool -= card.cost
+                    self.refresh_screen(screen_height, screen)
+                    self.get_status(screen_height, screen)
+                    print("play")
+                else:
+                    print(f"Not enough devotion to play {self.hand[active_card_ix].name}")
             else:
-                print(f"Not enough devotion to play {self.hand[active_card_ix].name}")
+                print("Already too many cards on the battlefield")
         else:
-            print("Already too many cards on the battlefield")
-
+            print(f"Not enough energy to play {self.hand[active_card_ix].name}")
 
     # Draw a card
     ### Must do something if there are no more cards in deck
@@ -120,20 +129,24 @@ class Player():
         self.devotion_pool = copy(self.devotion_total)
         
     def new_turn(self, screen_height, screen):
-        self.devotion_limit = 0
-        self.draw_card()
-        self.refresh_devotion()
-        self.refresh_screen(screen_height, screen)
-        self.get_status(screen_height, screen)
-        for card in self.battlefield:
-            if card.first_turn == True:
-                card.first_turn = False
+        pos = pygame.mouse.get_pos()
+        if game_ui.next_turn_rect.collidepoint(pos):
+            self.devotion_limit = 0
+            self.draw_card()
+            self.refresh_devotion()
+            self.refresh_screen(screen_height, screen)
+            self.get_status(screen_height, screen)
+            for card in self.battlefield:
+                if card.first_turn == True:
+                    card.first_turn = False
             
     def refresh_screen(self, screen_height, screen):
         screen.blit(game_ui.background, (0,0))
-        #self.screen.fill(game_ui.background_color)
         self.show_hand(game_ui.screen_height, self.screen)
         self.get_status(screen_height, screen)
+        screen.blit(game_ui.energy, game_ui.energy_rect)
+        screen.blit(game_ui.draw, game_ui.draw_rect)
+        screen.blit(game_ui.next_turn, game_ui.next_turn_rect)
         
     def right_click(self, screen_height, screen):
         self.refresh_screen(game_ui.screen_height, screen)
@@ -172,3 +185,27 @@ class Player():
                 x = game_ui.screen_width - active_card.raw_rect.width
                 y = game_ui.screen_height - active_card.raw_rect.height
                 screen.blit(active_card.raw_image, (x, y))
+                
+    def extra_draw(self, screen_height, screen):
+        pos = pygame.mouse.get_pos()
+        if game_ui.draw_rect.collidepoint(pos):
+            if self.devotion_pool >= game_ui.draw_cost:
+                self.devotion_pool -= game_ui.draw_cost
+                self.draw_card()
+                self.refresh_screen(screen_height, screen)
+            else:
+                print("Not enough devotion")
+                
+    def get_energy(self, screen_height, screen):
+        pos = pygame.mouse.get_pos()
+        if game_ui.energy_rect.collidepoint(pos):
+            if self.energy_pool == self.energy_max:
+                print("Already at max energy")
+            else:
+                if self.devotion_pool >= game_ui.energy_cost:
+                    self.energy_pool += 1
+                    self.devotion_pool -= game_ui.energy_cost
+                    self.get_status(screen_height, screen)
+                    self.refresh_screen(screen_height, screen)
+                else:
+                    print("Not enough devotion")
