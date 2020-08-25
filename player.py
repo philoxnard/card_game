@@ -128,17 +128,25 @@ class Player():
     def refresh_devotion(self):
         self.devotion_pool = copy(self.devotion_total)
         
-    def new_turn(self, screen_height, screen):
+    def new_turn(self, screen_height, active_player, screen):
         pos = pygame.mouse.get_pos()
         if game_ui.next_turn_rect.collidepoint(pos):
+            
             self.devotion_limit = 0
             self.draw_card()
             self.refresh_devotion()
-            self.refresh_screen(screen_height, screen)
             self.get_status(screen_height, screen)
+            self.refresh_screen(screen_height, screen)
+
             for card in self.battlefield:
                 if card.first_turn == True:
                     card.first_turn = False
+            if active_player == 1:
+                active_player = 2
+            elif active_player == 2:
+                active_player = 1
+            print(active_player)
+        return active_player
             
     def refresh_screen(self, screen_height, screen):
         screen.blit(game_ui.background, (0,0))
@@ -209,3 +217,5 @@ class Player():
                     self.refresh_screen(screen_height, screen)
                 else:
                     print("Not enough devotion")
+                    
+            
