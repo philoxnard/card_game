@@ -96,7 +96,6 @@ class Player():
     # Add a card from your hand to the battlefield  
     ### Must display some sort of error if user doesn't have enough devotion
     def play_card(self, active_card_ix, screen_height, screen):
-        print(f"active card ix is {active_card_ix}")
         if self.hand[active_card_ix].energy_cost <= self.energy_pool:
             if len(self.battlefield) < self.battlefield_max:
                 if self.hand[active_card_ix].cost <= self.devotion_pool:
@@ -145,7 +144,7 @@ class Player():
                 active_player = 2
             elif active_player == 2:
                 active_player = 1
-            print(active_player)
+            print(f"Now starting player {active_player}'s turn")
         return active_player
             
     def refresh_screen(self, screen_height, screen):
