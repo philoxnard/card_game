@@ -32,10 +32,14 @@ play_rect = play.get_rect()
 # Code to get the graphics and rect for a life point
 life = pygame.image.load("game_ui\\life.bmp")
 life_rect = life.get_rect()
+opp_l_dest_x = 839
+opp_l_dest_y = 170
 
 # Code to get the graphics and rect for a mana point
 mana = pygame.image.load("game_ui\\mana.bmp")
 mana_rect = mana.get_rect()
+opp_d_dest_x = 839
+opp_d_dest_y = 197
 
 # Code to get the graphics and rect for an empty mana point
 empty_mana = pygame.image.load("game_ui\\empty_mana.bmp")
@@ -49,6 +53,8 @@ energy_rect.x = 1013
 energy_rect.y = 561
 energy_dest_x = 376
 energy_dest_y = 69
+opp_e_dest_x = 835
+opp_e_dest_y = 234
 
 
 # Code to get the graphics and rect for the draw card option
@@ -63,6 +69,17 @@ next_turn = pygame.image.load("game_ui\\next_turn.bmp")
 next_turn_rect = next_turn.get_rect()
 next_turn_rect.x = 1013
 next_turn_rect.y = 500
+
+# Code to get the graphics and rect for the attack enemy option
+enemy = pygame.image.load("game_ui\\enemy.bmp")
+enemy_rect = enemy.get_rect()
+enemy_rect.x = 764
+enemy_rect.y = 500
+
+# Code to place the player display
+player_disp_x = 890
+player_disp_y = 369
+
 
 # Function for instantiating the images/rects
 # for the options a player has when they select a card

@@ -1,4 +1,6 @@
 import pygame
+pygame.init()
+
 
 class Card():
     """A class to represent a playing card"""
@@ -21,5 +23,18 @@ class Card():
         self.rect = self.image.get_rect()
         
         self.first_turn = True
+        
+        self.attack_font = pygame.font.Font("freesansbold.ttf", 16)
+        self.attack_display = self.attack_font.render(str(self.attack), True, (0,0,0))
+        self.attack_rect = self.attack_display.get_rect()
+        
+        self.health_font = pygame.font.Font('freesansbold.ttf', 16)
+        self.health_display = self.health_font.render(str(self.health), True, (255,0,0))
+        self.health_rect = self.health_display.get_rect()
+        
+    def update_health(self):
+        self.health_display = self.health_font.render(str(self.health), True, (255,0,0))
+        
+
         
         
