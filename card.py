@@ -23,6 +23,7 @@ class Card():
         self.rect = self.image.get_rect()
         
         self.first_turn = True
+        self.attacked = False
         
         self.attack_font = pygame.font.Font("freesansbold.ttf", 16)
         self.attack_display = self.attack_font.render(str(self.attack), True, (0,0,0))

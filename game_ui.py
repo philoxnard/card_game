@@ -2,13 +2,12 @@ import pygame
 
 # A list of settings for the general UI
 
-# Set the background the screen
-background = pygame.image.load("background.bmp")
-background_rect = background.get_rect()
 
 # Set width and height for the game screen
 screen_width = 1400
 screen_height = 700
+
+screen = pygame.display.set_mode((screen_width, screen_height))
 
 # Scale factor for the hand menu options
 scale_factor = 2.1
@@ -80,13 +79,8 @@ enemy_rect.y = 500
 player_disp_x = 890
 player_disp_y = 369
 
-
-# Function for instantiating the images/rects
-# for the options a player has when they select a card
-def hand(option_image, option_rect, anchor, screen):
-    option_rect.bottomleft = anchor
-    screen.blit(option_image, option_rect)
-    
+attacking = pygame.image.load("game_ui\\attacking_border.bmp")
+attacking_rect = attacking.get_rect()
 
     
 
