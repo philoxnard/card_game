@@ -79,8 +79,22 @@ enemy_rect.y = 500
 player_disp_x = 890
 player_disp_y = 369
 
+# Code to get the graphics and rect for the asleep condition
+asleep = pygame.image.load("game_ui\\asleep.bmp")
+asleep_rect = asleep.get_rect()
+
+# Code to get the graphcis and rect for the attacked condition
+attacked = pygame.image.load("game_ui\\attacked.bmp")
+attacked_rect = attacked.get_rect()
+
+# Code to get the graphics and rect for the attacking condition
+# No longer a border! It overlays over the creature image
 attacking = pygame.image.load("game_ui\\attacking_border.bmp")
 attacking_rect = attacking.get_rect()
+
+# Code to get the graphcis and rect for the guardian keyword
+guardian = pygame.image.load ("game_ui\\guardian.bmp")
+guardian_rect = guardian.get_rect()
 
     
 

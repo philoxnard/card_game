@@ -23,8 +23,7 @@ def run_game():
             if board.player_1.life_total > 0 and board.player_2.life_total > 0:
                 board.play_game(game_ui.screen_height, game_ui.screen)
             else:
-                game_ui.screen.fill((0,0,0))
-                game_ui.quit_game()
+                board.end_game()
             # Flip the display
             pygame.display.flip()
         except Exception as e:

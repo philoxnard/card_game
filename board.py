@@ -43,6 +43,7 @@ class Board():
         self.start_turn(player, enemy)
         self.draw_player(player)
         self.draw_enemy(enemy)
+        self.check_guardian(enemy)
         self.show_card_stats(player)
         self.expand_card(player, enemy)
         self.button = self.get_event_button()
@@ -129,9 +130,21 @@ class Board():
         for card in player.hand:
             game_ui.screen.blit(card.health_display, (card.rect.x+card.rect.width-18, card.rect.y+card.rect.height-22))
             game_ui.screen.blit(card.attack_display, (card.rect.x+card.rect.width-90, card.rect.y+card.rect.height-22))
+            game_ui.screen.blit(card.cost_display, (card.rect.x+card.rect.width-12, card.rect.y+4))
+            game_ui.screen.blit(card.energy_display, (card.rect.x+6, card.rect.y+4))
+            game_ui.screen.blit(card.name_display, (card.rect.x+12, card.rect.y+4))
+            if "guardian" in card.keywords:
+                game_ui.screen.blit(game_ui.guardian, (card.rect.x+card.rect.width-30, card.rect.y+card.rect.height-60))
         for card in player.battlefield:
             game_ui.screen.blit(card.health_display, (card.rect.x+card.rect.width-18, card.rect.y+card.rect.height-22))
             game_ui.screen.blit(card.attack_display, (card.rect.x+card.rect.width-90, card.rect.y+card.rect.height-22))
+            game_ui.screen.blit(card.name_display, (card.rect.x+12, card.rect.y+4))
+            if "guardian" in card.keywords:
+                game_ui.screen.blit(game_ui.guardian, (card.rect.x+card.rect.width-30, card.rect.y+card.rect.height-60))
+            if card.first_turn:
+                game_ui.screen.blit(game_ui.asleep, (card.rect.x+card.rect.width-95, card.rect.y+card.rect.height-60))
+            if card.attacked:
+                game_ui.screen.blit(game_ui.attacked, (card.rect.x+card.rect.width-90, card.rect.y+card.rect.height-60))
             
     def expand_card(self, player, enemy):
         pos = pygame.mouse.get_pos()
@@ -205,11 +218,11 @@ class Board():
                                 player.active_card_ix = None
                                 self.refresh_screen(player, enemy)
                             else:
-                                print(f"Not enough devotion to play {self.hand[self.active_card_ix].name}")
+                                print(f"Not enough devotion to play {player.hand[self.active_card_ix].name}")
                         else:
                             print("Already too many cards on the battlefield")
                     else:
-                        print(f"Not enough energy to play {self.hand[self.active_card_ix].name}")
+                        print(f"Not enough energy to play {player.hand[self.active_card_ix].name}")
                                 
     def devote_card(self, screen_height, screen, player, enemy):
         if self.button == 1:
@@ -250,31 +263,50 @@ class Board():
             pos = pygame.mouse.get_pos()
             for defending_card in enemy.battlefield:
                 if defending_card.rect.collidepoint(pos):
-                    player.attacking_card.health -= defending_card.attack
-                    defending_card.health -= player.attacking_card.attack
-                    defending_card.update_health()
-                    player.attacking_card.update_health()
-                    if player.attacking_card.health <= 0:
-                        player.battlefield.remove(player.attacking_card)
-                        player.graveyard.append(player.attacking_card)
-                    if defending_card.health <= 0:
-                        enemy.battlefield.remove(defending_card)
-                        enemy.graveyard.append(defending_card)
-                    player.attacking_card.attacked = True
-                    player.attacking_card = None
-                    player.active_card_ix = None
-                    self.refresh_screen(player, enemy)
+                    if enemy.guardian == False:
+                        self.calculate_damage(player, enemy, defending_card)
+                    elif enemy.guardian == True:
+                        if "guardian" in defending_card.keywords:
+                            self.calculate_damage(player, enemy, defending_card)
+                        else:
+                            print("Must attack enemy with guardian")
+    
+    def calculate_damage(self, player, enemy, defending_card):
+        player.attacking_card.health -= defending_card.attack
+        defending_card.health -= player.attacking_card.attack
+        defending_card.update_health()
+        player.attacking_card.update_health()
+        if player.attacking_card.health <= 0:
+            player.battlefield.remove(player.attacking_card)
+            player.graveyard.append(player.attacking_card)
+        if defending_card.health <= 0:
+            enemy.battlefield.remove(defending_card)
+            enemy.graveyard.append(defending_card)
+        player.attacking_card.attacked = True
+        player.attacking_card = None
+        player.active_card_ix = None
+        self.refresh_screen(player, enemy)
+                    
+    def check_guardian(self, enemy):
+        for card in enemy.battlefield:
+            if "guardian" in card.keywords:
+                enemy.guardian = True
+            else:
+                enemy.guardian = False
                     
     def attack_player(self, screen_height, screen, player, enemy):
         if self.button == 1:
             pos = pygame.mouse.get_pos()
             if game_ui.enemy_rect.collidepoint(pos):
-                enemy.life_total -= player.attacking_card.attack
-                player.attacking_card.attacked = True
-                player.attacking_card = None
-                player.active_card_ix = None
-                self.refresh_screen(player, enemy)
-
+                if enemy.guardian == False:
+                    enemy.life_total -= player.attacking_card.attack
+                    player.attacking_card.attacked = True
+                    player.attacking_card = None
+                    player.active_card_ix = None
+                    self.refresh_screen(player, enemy)
+                elif enemy.guardian == True:
+                    print("Must attack enemy with guardian")
+    
     def animate_card(self, player):
         if player.attacking_card != None:
             if player.attacking_card.attacked == False:
@@ -310,6 +342,9 @@ class Board():
         for card in enemy.battlefield:
             game_ui.screen.blit(card.health_display, (card.rect.x+card.rect.width-18, card.rect.y+card.rect.height-22))
             game_ui.screen.blit(card.attack_display, (card.rect.x+card.rect.width-90, card.rect.y+card.rect.height-22))
+            game_ui.screen.blit(card.name_display, (card.rect.x+12, card.rect.y+4))
+            if "guardian" in card.keywords:
+                game_ui.screen.blit(game_ui.guardian, (card.rect.x+card.rect.width-30, card.rect.y+card.rect.height-60))
             
     # End any current states                
     def end_turn(self, player, enemy):
@@ -351,6 +386,14 @@ class Board():
         if self.button == "q":
             pygame.quit()
             
-
+    def end_game(self):
+        game_ui.screen.fill((0,0,0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit()
+    
 
             

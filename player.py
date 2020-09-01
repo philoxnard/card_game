@@ -1,8 +1,3 @@
-import pygame
-
-import game_ui
-
-
 class Player():
     """Class to represent each player"""
     
@@ -31,6 +26,7 @@ class Player():
         self.state_win = False
         self.active_player = False
         self.upkeep = False
+        self.guardian = False
         
     # Draws the player's starting hand
     def draw_starting_hand(self, first_turn = 0):

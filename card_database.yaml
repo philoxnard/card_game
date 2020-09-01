@@ -1,0 +1,42 @@
+Ari:
+    name: Ari
+    attack: 3
+    health: 5
+    cost: 3
+    energy: 0
+    tax: 0
+    art: "card_art\\ari_art.bmp"
+    keywords: None
+
+Jangles:
+    name: Nasty Mr. Jangles
+    attack: 9
+    health: 9
+    cost: 7
+    energy: 2
+    tax: 0
+    art: "card_art\\jangles_art.bmp"
+    keywords: 
+        - alert
+        - intimidating
+        
+Guns:
+    name: Guns Endicott
+    attack: 6
+    health: 3
+    cost: 4
+    energy: 1
+    tax: 0
+    art: "card_art\\guns_art.bmp"
+    keywords:
+        - alert
+        
+Regular:
+    name: Regular Person
+    attack: 2
+    health: 1
+    cost: 1
+    energy: 0
+    tax: 0
+    art: f"card_art\\regular_art.bmp"
+    keywords: None
