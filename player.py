@@ -23,7 +23,6 @@ class Player():
         self.energy_max = 3
         self.attacking_card = None
         self.active_card_ix = None
-        self.state_win = False
         self.active_player = False
         self.upkeep = False
         self.guardian = False

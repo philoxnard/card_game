@@ -93,8 +93,12 @@ attacking = pygame.image.load("game_ui\\attacking_border.bmp")
 attacking_rect = attacking.get_rect()
 
 # Code to get the graphcis and rect for the guardian keyword
-guardian = pygame.image.load ("game_ui\\guardian.bmp")
+guardian = pygame.image.load("game_ui\\guardian.bmp")
 guardian_rect = guardian.get_rect()
+
+# Code to get the graphcis and rect for the alert keyword
+alert = pygame.image.load("game_ui\\alert.bmp")
+alert_rect = alert.get_rect()
 
     
 
