@@ -7,7 +7,7 @@ class Player():
         self.identity = identity
         self.deck = deck_file_name
         self.life_total = 20
-        self.starting_hand_size = 4
+        self.starting_hand_size = 5
         self.devotion_total = 0
         self.devotion_pool = 0
         self.hand = []

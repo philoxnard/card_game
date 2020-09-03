@@ -1,7 +1,14 @@
+"""Library of functions that become available to the active player when they
+enter the attacking state. That is, when the player clicks on an awake card
+in their battlefield, the following functions become available"""
+
 import pygame
 
 import game_ui
 
+# If the user clicks a card in the opponent's battlefield, and if they do not
+# have any restrictions because of any guardians in the opponent's battlefield,
+# this executes an attack
 def execute_attack(board, screen_height, screen, player, enemy):
     if board.button == 1:
         pos = pygame.mouse.get_pos()
@@ -15,6 +22,11 @@ def execute_attack(board, screen_height, screen, player, enemy):
                     else:
                         print("Must attack enemy with guardian")
 
+# If an attack is successfully executed, this function will calculate damage.
+# Each card will deal its attack to the other, reducing that total from their
+# health. Cards who drop to zero or lower are sent to the graveyard
+# Will eventually add a keyword "ranged" that will necessitate a new and separate
+# damage function
 def calculate_damage(board, screen, player, enemy, defending_card):
     player.attacking_card.health -= defending_card.attack
     defending_card.health -= player.attacking_card.attack
@@ -30,7 +42,9 @@ def calculate_damage(board, screen, player, enemy, defending_card):
     player.attacking_card = None
     player.active_card_ix = None
     board.refresh_screen(screen, player, enemy)
-    
+
+# Option to attack the enemy's player life total directly, so long as they
+# don't have any characters with guardian    
 def attack_player(board, screen_height, screen, player, enemy):
     if board.button == 1:
         pos = pygame.mouse.get_pos()
@@ -44,6 +58,8 @@ def attack_player(board, screen_height, screen, player, enemy):
             elif enemy.guardian == True:
                 print("Must attack enemy with guardian")
 
+# Gives the current attacking card a visual indicator that it is the attacking
+# card 
 def animate_card(board, player):
     if player.attacking_card != None:
         if player.attacking_card.attacked == False:

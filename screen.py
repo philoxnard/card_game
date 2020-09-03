@@ -22,6 +22,8 @@ def run_game():
     while True:
         # handle errors to gracefully quit the pygame app
         try:
+            # Checks to see if any of the players have been reduced to 0 life
+            # If not, it will pass turn from person to person
             if board.player_1.life_total > 0 and board.player_2.life_total > 0:
                 board.play_game(game_ui.screen_height, game_ui.screen)
             else:

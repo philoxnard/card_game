@@ -1,6 +1,16 @@
 """A list of issues or necessary changes
 
+    THIS IS TOP PRIORITY
+    The zoomed in card is pointless if it doesn't display info!!
+    Draw stats on zoomed in card
+        zoomed in card will also have special card text
+        Gonna wait on this until I have a better idea of what the cards will
+        look like
+        
+    Eventually make a new library for Spell effects
+
     Gotta write a README to explain the purpose and function
+        Also gotta do an overhaul on documentation
     
     Gotta eventually network this bad boy and allow the player to make
         their own deck
@@ -12,15 +22,18 @@
     Pretty much everything needs to be documented well. Just take a day and
         go through every file and document everything really nicely
         
-    Getting a yaml file of all the cards OR have each card contain a dictionary
-        containing name, attack, cost, etc - that might be a more consice way to 
-        do it so that each card doesn't eventually have a million parameters
+    Make some preconstructed decks and a main menu that allows players to pick
+        their decks
         
-    Make some new cards and implement some way for users to make their own 
-        decks. That would be sooo cool but would need basically an entire
-        new document of code
+    There are a lot of things that are told to the player via text in the 
+        console - they must be changed to be made visible somehow - 
+        possibly even add sound??
     
 Other things that should be tweaked/fixed/changed:
+
+    Find a more concise way to draw all of the icons on cards
+    Literally everything that gets drawn to cards is SO messy in terms of how
+        its done. Gotta fix it.
     
     Show how many cards enemy has in hand
     
@@ -33,26 +46,11 @@ Other things that should be tweaked/fixed/changed:
     Indicate if you have devoted yet this turn
         draw something if player.devotion_limit is or isnt 0
     
-    Draw stats on zoomed in card
-        zoomed in card will also have special card text
-        Gonna wait on this until I have a better idea of what the cards will
-        look like
-    
     Clean up the Board class code
         lots of game_ui.screen, game_ui.screen_height, parameters that should
         or shouldnt be there... maybe make a method called self.blit
         that just copies the game_ui.screen.blit code, or something
         to simplify the game_ui.screen/height stuff
-    
-    Decide on final layout for the card so you can finialize the drawing of stats
-        Also could be nice to move all the card stat display drawing to a new
-        file, or at least class so its a little bit cleaner. This feels like
-        a low priority fix, it would have to come after figuring out more
-        about what I want the cards to actually look like. Function stuff first.
-        
-    Draw the card art in the same way that you currently have card stats/keywords
-        drawn. In other words, dont put it straight on the card, but display it
-        relative to the card's current position
     
     Also can draw life total, devotion total, and energy total as ints
     instead of as colored boxes - but tbh I kinda like the boxes.

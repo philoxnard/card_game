@@ -7,15 +7,12 @@ class Card():
     """A class to represent a playing card"""
     
     # Method to initialize each card
-    def __init__(self, name, cost, energy_cost, attack, health, keywords, art):
+    def __init__(self, name, cost, energy_cost, art):
         self.name = name
         self.cost = cost
-        self.attack = attack
-        self.health = health
         self.energy_cost = energy_cost
         self.raw_image = pygame.image.load("card_art\\card_template.bmp")
         self.raw_rect = self.raw_image.get_rect()
-        self.keywords = keywords
         
         self.raw_card_art = pygame.image.load(art)
         self.raw_card_art_rect = self.raw_card_art.get_rect()
@@ -32,22 +29,7 @@ class Card():
         
         self.image = pygame.transform.scale(self.raw_image, (wd, ht))
         self.rect = self.image.get_rect()
-        
-        self.first_turn = True
-        self.attacked = False
-        
-        if "alert" in self.keywords:
-            self.first_turn = False
-            
-        
-        self.attack_font = pygame.font.Font("freesansbold.ttf", 16)
-        self.attack_display = self.attack_font.render(str(self.attack), True, (0,0,0))
-        self.attack_rect = self.attack_display.get_rect()
-        
-        self.health_font = pygame.font.Font('freesansbold.ttf', 16)
-        self.health_display = self.health_font.render(str(self.health), True, (255,0,0))
-        self.health_rect = self.health_display.get_rect()
-        
+                
         self.cost_font = pygame.font.Font("freesansbold.ttf", 12)
         self.cost_display = self.cost_font.render(str(self.cost), True, (0,0,255))
         self.cost_rect = self.cost_display.get_rect()
@@ -60,8 +42,7 @@ class Card():
         self.name_display = self.name_font.render(str(self.name), True, (0,0,0))
         self.name_rect = self.name_display.get_rect()
         
-    def update_health(self):
-        self.health_display = self.health_font.render(str(self.health), True, (255,0,0))
+
         
 
         

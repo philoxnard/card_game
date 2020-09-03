@@ -1,6 +1,8 @@
+"""A library of functions and information that relate to visual and numerical
+elements of gameplay"""
+
 import pygame
 
-# A list of settings for the general UI
 
 
 # Set width and height for the game screen
@@ -100,8 +102,21 @@ guardian_rect = guardian.get_rect()
 alert = pygame.image.load("game_ui\\alert.bmp")
 alert_rect = alert.get_rect()
 
-    
+# Code to get the graphics and rect for the magical keyword
+magical = pygame.image.load("game_ui\\magical.bmp")
+magical_rect = magical.get_rect()
 
+# Code to get the graphics and rect for the damage effect
+damage = pygame.image.load("game_ui\\damage.bmp")
+damage_rect = damage.get_rect()
+
+# Code to get the graphics and rect for the ramp effect
+ramp = pygame.image.load("game_ui\\ramp.bmp")
+ramp_rect = ramp.get_rect()
+
+# Code to get the graphics and rect for the draw effect
+spell_draw = pygame.image.load("game_ui\\spell_draw.bmp")
+spell_draw_rect = spell_draw.get_rect()
     
 
 

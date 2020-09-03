@@ -1,3 +1,10 @@
+"""The highest level class in the game. the Board class is responsible for 
+instantiating the players, guiding the active player's turn, drawing the active
+and inactive player's relevant information, and doing pretty much everything.
+
+The functionality that the Board class has is spread between a volume of 
+smaller, more specific libraries for handling specific things"""
+
 import pygame
 from copy import copy
 
@@ -61,23 +68,31 @@ class Board():
         extra_options_lib.get_energy(self, screen, player, enemy)
         extra_options_lib.quit_game(self)
 
-    
+    # Collection of functions from the draw_player_lib responsible for drawing
+    # the visual aspects of the player
     def draw_player(self, player):
         draw_player_lib.player_hand(self, game_ui.screen_height, player)
         draw_player_lib.player_battlefield(self, game_ui.screen_height, player)
         draw_player_lib.player_stats(self, player)
-
+    
+    # Collection of functions from the draw_enemy_lib responsible for drawing
+    # the visual aspects of the enemy
     def draw_enemy(self, screen, enemy):
         draw_enemy_lib.enemy_battlefield(self, game_ui.screen_height, enemy)
         draw_enemy_lib.enemy_stats(self, enemy)
         draw_enemy_lib.show_enemy_stats(self, screen, enemy)
-        
+    
+    # Draws all of the extra options for the player
+    # Includes get energy, draw a card, end the turn, and attack enemy directly
     def draw_extra_options(self, screen):
         screen.blit(game_ui.energy, game_ui.energy_rect)
         screen.blit(game_ui.draw, game_ui.draw_rect)
         screen.blit(game_ui.next_turn, game_ui.next_turn_rect)
         screen.blit(game_ui.enemy, game_ui.enemy_rect)
-            
+    
+    # A VERY important function that gets called very frequently to redraw
+    # pretty much everything on screen. Any time anything on the board changes,
+    # this function must be called        
     def refresh_screen(self, screen, player, enemy):
         game_ui.screen.blit(self.game_board, (0,0))
         self.draw_extra_options(screen)
@@ -85,10 +100,13 @@ class Board():
         self.draw_enemy(screen, enemy)
         card_info_lib.show_card_stats(self, player)
             
+    # A function for maintaining a player's upkeep when they start a new turn.
+    # Draws them a card, refreshes their devotion pool, removes their limit
+    # on devoting cards, wakes up any of their sleeping cards
     def start_turn(self, screen, player, enemy):
         if player.upkeep == False:
             player.devotion_pool = copy(player.devotion_total)  
-            self.draw_card(player)
+            extra_options_lib.draw_card(self, player)
             player.devotion_limit = 0
             for card in player.battlefield:
                 if card.first_turn:
@@ -97,15 +115,10 @@ class Board():
                     card.attacked = False
             player.upkeep = True
             self.refresh_screen(screen, player, enemy)
-
-    def draw_card(self, player):
-        draw = player.deck.pop(0)
-        if len(player.hand) < player.hand_max:
-            player.hand.append(draw)
-        else:
-            print("Too many cards in hand - discarding card")
-            player.graveyard.append(draw)
-            
+ 
+    # Checks to see if the enemy has any guardian Characters in their battlefield.
+    # If they do, it limits the options that the active player has in terms
+    # of attacking
     def check_guardian(self, enemy):
         if enemy.battlefield == []:
             enemy.guardian = False
@@ -116,6 +129,7 @@ class Board():
                 elif "guardian" not in card.keywords:
                     enemy.guardian = False
 
+    # Checks for mouse clicks and keyboard presses
     def get_event_button(self):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -128,7 +142,10 @@ class Board():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     return "q"
-                        
+    
+    # Right clicks are like state refreshers. If any state is active on a 
+    # player's turn, it cancels out those states and removes the click hand
+    # options.                        
     def right_click(self, screen_height, screen, player, enemy):
         if self.button == 3:
             player.attacking_card = None
@@ -136,7 +153,8 @@ class Board():
             screen.blit(game_ui.devote, (-300,-300))
             screen.blit(game_ui.play, (-300, -300))
             self.refresh_screen(screen, player, enemy)
-            
+
+    # If a card in your hand is clicked, this enters the click hand state            
     def click_hand(self, screen, player, enemy):
         if self.button == 1:
             pos = pygame.mouse.get_pos()
@@ -145,6 +163,8 @@ class Board():
                     self.refresh_screen(screen, player, enemy)
                     player.active_card_ix = index
 
+    # If a card on the battlefield is clicked, if that card is awake, enters
+    # the attacking state
     def start_attack(self, screen_height, screen, player):
         if self.button == 1:
             pos = pygame.mouse.get_pos()
@@ -158,7 +178,9 @@ class Board():
                             print("summoning sickness")
                     else:
                         print(f"{card.name} has already attacked this turn")
-                                                                     
+
+    # Function that ends the game. This is called when a player's health
+    # is reduced to zero.                                                                     
     def end_game(self):
         game_ui.screen.fill((0,0,0))
         for event in pygame.event.get():
