@@ -13,6 +13,7 @@ class Character(Card):
         self.attack = attack
         self.health = health
         self.keywords = keywords
+        self.keywords_list = ""
         self.identity = identity
         
         # Card type is used in some functions to decide what to do with a card
@@ -29,7 +30,11 @@ class Character(Card):
         # the alert keyword allows a character to attack on their first turn out
         if "alert" in self.keywords:
             self.first_turn = False
-        
+            
+        # Code for getting a text list of a character's keywords
+        for keyword in keywords: 
+            self.keywords_list = self.keywords_list + " -" + keyword + "  "
+            
         # Creates the display properties for a character's attack
         self.attack_font = pygame.font.Font("freesansbold.ttf", 16)
         self.attack_display = self.attack_font.render(str(self.attack), True, (0,0,0))
@@ -39,6 +44,10 @@ class Character(Card):
         self.health_font = pygame.font.Font('freesansbold.ttf', 16)
         self.health_display = self.health_font.render(str(self.health), True, (255,0,0))
         self.health_rect = self.health_display.get_rect()
+        
+        # Creates the display properties for a character's zoomed in health and attack
+        self.zoom_health = pygame.transform.scale2x(self.health_display)
+        self.zoom_attack = pygame.transform.scale2x(self.attack_display)
         
     # Quick function for updating a character's health
     def update_health(self):

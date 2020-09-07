@@ -63,7 +63,7 @@ def play_spell(board, screen, player, enemy):
         if "magical" in card.keywords:
             card.attack += 1
             card.attack_display = card.attack_font.render(str(card.attack), True, (0,0,0))
-            card_info_lib.show_card_stats(board, player)
+            card_info_lib.show_card_stats(board, screen, player)
     board.refresh_screen(screen, player, enemy)
 
 # This allows the user to devote a card, which removes it from their hand, 

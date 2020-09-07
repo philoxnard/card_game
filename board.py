@@ -48,8 +48,8 @@ class Board():
         self.start_turn(screen, player, enemy)
         self.draw_player(player)
         self.draw_enemy(screen, enemy)
-        card_info_lib.show_card_stats(self, player)
-        card_info_lib.expand_card(self, player, enemy)
+        card_info_lib.show_card_stats(self, screen, player)
+        card_info_lib.expand_card(self, screen, player, enemy)
         self.check_guardian(enemy)
         self.button = self.get_event_button()
         self.right_click(game_ui.screen_height, game_ui.screen, player, enemy)
@@ -98,7 +98,7 @@ class Board():
         self.draw_extra_options(screen)
         self.draw_player(player)
         self.draw_enemy(screen, enemy)
-        card_info_lib.show_card_stats(self, player)
+        card_info_lib.show_card_stats(self, screen, player)
             
     # A function for maintaining a player's upkeep when they start a new turn.
     # Draws them a card, refreshes their devotion pool, removes their limit

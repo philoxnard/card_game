@@ -44,10 +44,10 @@ def create_fireball():
     return Spell("Fireball", 1, 0, ["damage_face 3"], f"{file}fireball_art.bmp")
 
 def create_song_of_soothing():
-    return Spell("Song of Soothing", 3, 0, ["ramp 2", "draw 1"], f"{file}song_of_soothing_art.bmp")
+    return Spell("Song of Soothing", 3, 0, ["ramp 1", "draw 1"], f"{file}song_of_soothing_art.bmp")
 
 def create_flame_spike():
-    return Spell("Flame Spike", 4, 0, ["damage_face 7"], f"{file}flame_spike_art.bmp")
+    return Spell("Flame Spike", 4, 0, ["damage_face 6"], f"{file}flame_spike_art.bmp")
 
 def create_magic_snake():
-    return Spell("Magic Snake", 2, 0, ["damage_face 2", "ramp 1"], f"{file}magic_snake_art.bmp")
+    return Spell("Magic Snake", 2, 0, ["damage_face 1", "ramp 1"], f"{file}magic_snake_art.bmp")

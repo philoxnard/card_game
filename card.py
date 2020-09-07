@@ -42,6 +42,11 @@ class Card():
         self.name_display = self.name_font.render(str(self.name), True, (0,0,0))
         self.name_rect = self.name_display.get_rect()
         
+        self.zoom_cost = pygame.transform.scale2x(self.cost_display)
+        self.zoom_energy = pygame.transform.scale2x(self.energy_display)
+        self.zoom_name = pygame.transform.scale2x(self.name_display)
+        
+        
 
         
 
