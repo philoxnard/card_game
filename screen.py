@@ -3,31 +3,22 @@ import pygame
 
 import game_ui
 from board import Board
+from menu import Menu
 
 def run_game():
-    # Initialize pygame, settings, and screen object
+    # Initialize pygame, board, and menu
     pygame.init()
     board = Board()
-
-    # Draw the player's starting hand from their deck
-    # Player 2 gets an extra card for going second
-    board.player_1.draw_starting_hand()
-    board.player_2.draw_starting_hand(1)
-    
-    # Set player 1 to be the first active player
-    board.player_1.active_player = True
+    menu = Menu()
     
     # Highest level logic loop for the game
-    
     while True:
         # handle errors to gracefully quit the pygame app
         try:
-            # Checks to see if any of the players have been reduced to 0 life
-            # If not, it will pass turn from person to person
-            if board.player_1.life_total > 0 and board.player_2.life_total > 0:
-                board.play_game(game_ui.screen_height, game_ui.screen)
+            if menu.start_game == False:
+                menu.run(game_ui.screen)
             else:
-                board.end_game()
+                board.play_game(game_ui.screen_height, game_ui.screen)
             # Flip the display
             pygame.display.flip()
         except Exception as e:

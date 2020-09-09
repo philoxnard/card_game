@@ -7,6 +7,7 @@ smaller, more specific libraries for handling specific things"""
 
 import pygame
 from copy import copy
+import random
 
 from player import Player
 import deck
@@ -25,18 +26,15 @@ class Board():
     def __init__(self):
         self.game_board = pygame.image.load("background.bmp")
         self.game_board_rect = self.game_board.get_rect()
-        self.players = []
-        self.player_1 = Player("Player 1", "Ari", deck.deck, game_ui.screen)
-        self.player_2 = Player("Player 2", "Coda", deck.aggro_deck, game_ui.screen)
-        self.players.append(self.player_1)
-        self.players.append(self.player_2)
         self.button = None
+        self.start_game_attr = False
         game_ui.screen.blit(self.game_board, (0,0))
         pygame.display.set_caption("Card Game")
      
     # Highest level method in the Board class
     # Checks to see who is the active player and who is the enemy
     def play_game(self, screen_height, screen):
+        self.start_game()
         self.draw_extra_options(screen)
         for index, player in enumerate(self.players):
             if player.active_player:
@@ -67,6 +65,22 @@ class Board():
         extra_options_lib.extra_draw(self, screen, player, enemy)
         extra_options_lib.get_energy(self, screen, player, enemy)
         extra_options_lib.quit_game(self)
+        self.end_game()
+        
+    # Function that only runs once at the beginning of the game
+    def start_game(self):
+        if self.start_game_attr == False:
+            self.players = []
+            self.player_1 = Player("Player 1", "Ari", deck.player_1_deck, game_ui.screen)
+            self.player_2 = Player("Player 2", "Coda", deck.player_2_deck, game_ui.screen)
+            random.shuffle(self.player_1.deck)
+            random.shuffle(self.player_2.deck)
+            self.players.append(self.player_1)
+            self.players.append(self.player_2)
+            self.player_1.draw_starting_hand()
+            self.player_2.draw_starting_hand(1)
+            self.player_1.active_player = True
+            self.start_game_attr = True
 
     # Collection of functions from the draw_player_lib responsible for drawing
     # the visual aspects of the player
@@ -182,13 +196,14 @@ class Board():
     # Function that ends the game. This is called when a player's health
     # is reduced to zero.                                                                     
     def end_game(self):
-        game_ui.screen.fill((0,0,0))
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
+        if self.player_1.life_total <= 0 or self.player_2.life_total <= 0:
+            game_ui.screen.fill((0,0,0))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
                     pygame.quit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        pygame.quit()
+        
     
-
-            
+                

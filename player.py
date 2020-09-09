@@ -2,10 +2,10 @@ class Player():
     """Class to represent each player"""
     
     # Initializes attributes for the player
-    def __init__(self, name, identity, deck_file_name, screen):
+    def __init__(self, name, identity, deck, screen):
         self.name = name
         self.identity = identity
-        self.deck = deck_file_name
+        self.deck = deck
         self.life_total = 20
         self.starting_hand_size = 5
         self.devotion_total = 0

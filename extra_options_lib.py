@@ -27,7 +27,7 @@ def extra_draw(board, screen, player, enemy):
         if game_ui.draw_rect.collidepoint(pos):
             if player.devotion_pool >= game_ui.draw_cost:
                 player.devotion_pool -= game_ui.draw_cost
-                board.draw_card(player)
+                draw_card(board, player)
                 board.refresh_screen(screen, player, enemy)
             else:
                 print("Not enough devotion")

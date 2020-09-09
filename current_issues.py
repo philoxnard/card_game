@@ -1,19 +1,38 @@
 """A list of issues or necessary changes
 
+    CURRENT PROJECT
+    During deck select, display to the user who is picking their deck. aka, 
+        draw something like "PLAYER ONE SELECT YOUR DECK"    
+        Also, add a third deck that's like, tempo or swarm or something
+        
+    Make the decks a lil more concise by using for loops;
+        for i in range 4:
+            deck.append(card)
+        
+    Easy fix to make shit shorter - import game_ui and main_menu_ui as shorter
+        variables so everything isn't so fucking massive. AND make every blit
+        like how it is in the main menu stuff - define all the rect Xs and Ys
+        in the game_ui rather than in the main functions
+        
+    Do a general sweep of the code and make it prettier
+        The design choices in the menu code are soooo much easier to read and
+        understand than in the main body - fixing that could be nice. Also I 
+        think a lot of the comments are probably not super good.
+    
     Make a spell effect for dealing X damage to a character
         Also a spell effect for dealing X to any target
         
     Eventually make a new library for Spell effects
 
-    Gotta write a README to explain the purpose and function
-        Also gotta do an overhaul on documentation
-    
     Gotta eventually network this bad boy and allow the player to make
         their own deck
         
-    Balance of course! And need to update with taxes and identities/kingdoms
-        Really I need an entirely new understanding of what the cards are going
-        to be.
+    Make a play vs CPU option... gonna be hard lol
+        
+    Update game with identities, factions, and taxes. This will make things more
+        interesting I think, but also will necessitate a LOT more cards
+        
+    Create another card type that's like an enchantment or artifact
 
     Make some preconstructed decks and a main menu that allows players to pick
         their decks
